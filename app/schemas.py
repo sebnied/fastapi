@@ -13,19 +13,23 @@ class PostCreate(PostBase):
     pass
 
 
-class UserOut(BaseModel):
-    id: int
+class UserPost(BaseModel):
     email: EmailStr
-    created_at: datetime
 
     class Config:
         orm_mode=True
 
 
+class UserOut(UserPost):
+    id: int
+    created_at: datetime
+
+
+
 class Post(PostBase):
     created_at: datetime
     id: int
-    owner: UserOut
+    owner: UserPost
 
     class Config:
         orm_mode=True
