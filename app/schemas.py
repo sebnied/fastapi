@@ -25,7 +25,6 @@ class UserOut(UserPost):
     created_at: datetime
 
 
-
 class Post(PostBase):
     created_at: datetime
     id: int
@@ -65,3 +64,10 @@ class TokenData(BaseModel):
 class Vote(BaseModel):
     post_id: int
     dir:  conint(le=1)
+
+
+class Votes(BaseModel):
+    email: EmailStr
+
+    class Config:
+        orm_mode=True

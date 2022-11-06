@@ -49,11 +49,12 @@ def get_post(id: int, db: Session = Depends(get_db),
     # cursor.execute("""SELECT * FROM posts WHERE id = %s""", (str(id)))
     # post = cursor.fetchone()
 
-    post = db.query(models.Post).filter(models.Post.id == id).first()
+    # post = db.query(models.Post).filter(models.Post.id == id).first()
 
     posts_query = db.query(models.Post, func.count(models.Vote.post_id).label("votes")).join(
         models.Vote, models.Post.id == models.Vote.post_id, isouter=True).group_by(models.Post.id)
     post = posts_query.filter(models.Post.id == id).first()
+    print(post)
 
     if not post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
