@@ -32,7 +32,7 @@ def vote(vote: schemas.Vote, db: Session = Depends(database.get_db),
                 vote_query.update({'vote_type': vote.vote_type}, synchronize_session=False)
                 db.commit()
                 return {"message": f"successfully changed vote to {vote.vote_type}"}
-        new_vote = models.Vote(post_id=vote.post_id, user_id=current_user.id)
+        new_vote = models.Vote(post_id=vote.post_id, user_id=current_user.id, vote_type=vote.vote_type)
         db.add(new_vote)
         db.commit()
         return {"message": "successfully added vote"}
