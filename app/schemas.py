@@ -1,6 +1,8 @@
+from enum import Enum
+
 from pydantic import BaseModel, EmailStr, conint
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Literal
 
 
 class PostBase(BaseModel):
@@ -61,13 +63,27 @@ class TokenData(BaseModel):
     id: Optional[str] = None
 
 
-class Vote(BaseModel):
+class VoteTypes(str, Enum):
+    like = 'like'
+    love = 'love'
+    dislike = 'dislike'
+
+
+class BaseVote(BaseModel):
+    vote_type: Optional[VoteTypes] = VoteTypes.like
+
+    class Config:
+        orm_mode=True
+
+
+class Vote(BaseVote):
     post_id: int
     dir:  conint(le=1)
 
 
 class Votes(BaseModel):
     email: EmailStr
+    Vote: BaseVote
 
     class Config:
         orm_mode=True
